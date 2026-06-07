@@ -1,0 +1,1 @@
+cl /EHsc /Za /Tc %1 %2
