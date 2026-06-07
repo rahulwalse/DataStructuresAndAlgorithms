@@ -1,0 +1,1 @@
+cl /EHsc /Za /Tc linked-list.c tester.c
