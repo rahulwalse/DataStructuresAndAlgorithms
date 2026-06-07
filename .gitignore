@@ -1,0 +1,12 @@
+# Directories
+.vscode/
+
+# Files in directory
+*.exe
+*.pdb
+*.obj
+
+# Files in sub directories
+*/*.exe
+*/*.pdb
+*/*.obj
