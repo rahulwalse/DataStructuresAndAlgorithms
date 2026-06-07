@@ -1,0 +1,1 @@
+cl /EHsc /Za /Tc valid-expression.c stack.c
