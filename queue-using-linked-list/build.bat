@@ -1,0 +1,1 @@
+cl /EHsc /Za /Tc queue.c forward-list.c tester.c
