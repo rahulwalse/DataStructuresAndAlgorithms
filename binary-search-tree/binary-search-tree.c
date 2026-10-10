@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*  Helper functions.  */
+static node_t* create_node(int data);
+static int get_max(int num_one, int num_two);
+
 void bfs(node_t* node)
 {
     if(!node) { return; }
@@ -17,7 +21,7 @@ void bfs(node_t* node)
         So, size of queue will be 2 to power height + 1.
     */
     int height = find_height(node);
-    int size = round(pow(2, height)) + 1;
+    int size = (int)round(pow(2, height)) + 1;
 
     queue_t* queue = initialize(size);
     /*  Push the current node on to queue.  */
@@ -49,7 +53,7 @@ void bfs(node_t* node)
     deinitialize(&queue);
 }
 
-node_t* create_node(int data)
+static node_t* create_node(int data)
 {
     node_t* new_node = malloc(sizeof(node_t));
 
@@ -103,7 +107,7 @@ int find_max(node_t* node)
     return find_max(node->right);
 }
 
-int get_max(int num_one, int num_two)
+static int get_max(int num_one, int num_two)
 {
     return num_one > num_two ? num_one : num_two;
 }

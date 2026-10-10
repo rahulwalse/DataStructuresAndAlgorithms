@@ -3,5 +3,6 @@
 ::  Compiler flags
 SET CC=cl
 SET STD_C89=/Za /Tc
+SET WARNING_FLAGS=/W4 /WX
 
-%CC% /EHsc %STD_C89% binary-search-tree.c queue.c tester.c
+%CC% %WARNING_FLAGS% %STD_C89% binary-search-tree.c queue.c tester.c

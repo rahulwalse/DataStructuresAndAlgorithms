@@ -10,13 +10,10 @@ typedef int bool;
 void bfs(node_t* node);
 
 int find_height(node_t* node);
-
 int find_min(node_t* node);
-
 int find_max(node_t* node);
 
 void insert_node(node_t** node, int data);
-
 bool search(node_t* node, int key);
 
 #endif

@@ -4,15 +4,8 @@
 
 #define DEFAULT_SIZE    5
 
-node_t* back(queue_t* queue)
-{
-    node_t* back_node = NULL;
-    if(!is_empty(queue))
-    {
-        back_node = queue->nodes[queue->rear - 1];
-    }
-    return back_node;
-}
+/*  Helper functions.  */
+static void reallocate_memory(queue_t** queue);
 
 void deinitialize(queue_t** queue)
 {
@@ -30,16 +23,6 @@ void deinitialize(queue_t** queue)
         free(*queue);
         *queue = NULL;
     }
-}
-
-node_t* front(queue_t* queue)
-{
-    node_t* front_node = NULL;
-    if(!is_empty(queue))
-    {
-        front_node = queue->nodes[queue->front];
-    }
-    return front_node;
 }
 
 queue_t* initialize(int size)
@@ -64,20 +47,24 @@ queue_t* initialize(int size)
     return queue;
 }
 
-bool is_full(queue_t* queue)
+node_t* back(queue_t* queue)
 {
-    return queue->rear == queue->size;
+    node_t* back_node = NULL;
+    if(!is_empty(queue))
+    {
+        back_node = queue->nodes[queue->rear - 1];
+    }
+    return back_node;
 }
 
-bool is_empty(queue_t* queue)
+node_t* front(queue_t* queue)
 {
-    if(queue && queue->front == queue->rear)
+    node_t* front_node = NULL;
+    if(!is_empty(queue))
     {
-        /*  Reset front & rear to utilize memory efficiently.  */
-        queue->front = queue->rear = 0;
-        return TRUE;
+        front_node = queue->nodes[queue->front];
     }
-    return FALSE;
+    return front_node;
 }
 
 void pop(queue_t** queue)
@@ -107,7 +94,23 @@ void push(queue_t** queue, node_t* node)
     (*queue)->rear++;
 }
 
-void reallocate_memory(queue_t** queue)
+bool is_full(queue_t* queue)
+{
+    return queue->rear == queue->size;
+}
+
+bool is_empty(queue_t* queue)
+{
+    if(queue && queue->front == queue->rear)
+    {
+        /*  Reset front & rear to utilize memory efficiently.  */
+        queue->front = queue->rear = 0;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+static void reallocate_memory(queue_t** queue)
 {
     /*  Queue is empty, do nothing.  */
     if(!*queue) { return; }    

@@ -19,20 +19,17 @@ struct queue_t
     size_t size;
 };
 
-node_t* back(queue_t* queue);
-
 void deinitialize(queue_t** queue);
-
-node_t* front(queue_t* queue);
-
 queue_t* initialize(int size);
 
-bool is_full(queue_t* queue);
 
-bool is_empty(queue_t* queue);
-
+node_t* back(queue_t* queue);
+node_t* front(queue_t* queue);
 void pop(queue_t** queue);
-
 void push(queue_t** queue, node_t* node);
+
+
+bool is_full(queue_t* queue);
+bool is_empty(queue_t* queue);
 
 #endif
