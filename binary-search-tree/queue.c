@@ -97,19 +97,33 @@ void push(queue_t** queue, node_t* node)
     {
         *queue = initialize(DEFAULT_SIZE);
     }
-    /*
-        TODO: if queue is full then double the size and
-        move the data (in this case pointers) for new
-        memory and then free old memory.
-    */
+    /*  Queue is full, double the size of queue.  */
     if(is_full(*queue))
     {
-        
+        reallocate_memory(queue);
     }
+    /*  Push the node (pointer) on the queue.  */
+    (*queue)->nodes[(*queue)->rear] = node;
+    (*queue)->rear++;
+}
 
-    if(!is_full(*queue))
+void reallocate_memory(queue_t** queue)
+{
+    /*  Queue is empty, do nothing.  */
+    if(!*queue) { return; }    
+    /*  Allocate double memory.  */
+    size_t double_size = (*queue)->size * 2;
+    node_t** doubled_nodes = malloc(sizeof(node_t*) * double_size);    
+    /*  Memory allocation failed!  */
+    if(!doubled_nodes) { return; }
+    /*  Copy the elements (pointers) to new memory.  */
+    for(size_t index = 0; index < (*queue)->size; index++)
     {
-        (*queue)->nodes[(*queue)->rear] = node;
-        (*queue)->rear++;
+        doubled_nodes[index] = (*queue)->nodes[index];
     }
+    /*  Free the existing memory.  */
+    free((*queue)->nodes);
+    /*  Queue now points to doubled memory.  */
+    (*queue)->nodes = doubled_nodes;
+    (*queue)->size = double_size;
 }
