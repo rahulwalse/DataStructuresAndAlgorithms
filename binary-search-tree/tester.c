@@ -34,5 +34,14 @@ int main()
     printf("\nBFS: ");
     bfs(root_node);
 
+    printf("\nIn-order Traversal: ");
+    in_order(root_node);
+
+    printf("\nPost-order Traversal: ");
+    post_order(root_node);
+
+    printf("\nPre-order Traversal: ");
+    pre_order(root_node);
+
     return 0;
 }

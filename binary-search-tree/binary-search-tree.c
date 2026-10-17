@@ -112,6 +112,48 @@ static int get_max(int num_one, int num_two)
     return num_one > num_two ? num_one : num_two;
 }
 
+void in_order(node_t* node)
+{
+    /*  Base case: if the root node is NULL, do nothing.  */
+    if(!node) { return; }
+
+    /*
+        Recursive case: traverse left sub-tree, process visited
+        node and traverse right sub-tree.
+    */
+    in_order(node->left);
+    printf("%d ", node->data);
+    in_order(node->right);
+}
+
+void post_order(node_t* node)
+{
+    /*  Base case: if the root node is NULL, do nothing.  */
+    if(!node) { return; }
+
+    /*
+        Recursive case: traverse to left sub-tree, traverse right
+        sub-tree and process visited node.
+    */
+    post_order(node->left);
+    post_order(node->right);
+    printf("%d ", node->data);
+}
+
+void pre_order(node_t* node)
+{
+    /*  Base case: if the root node is NULL, do nothing.  */
+    if(!node) { return; }
+
+    /*
+        Recursive case: process visited node, traverse left sub-tree
+        and traverse right sub-tree.
+    */
+    printf("%d ", node->data);
+    pre_order(node->left);
+    pre_order(node->right);
+}
+
 void insert_node(node_t** node, int data)
 {
     /*  Base case: first node in tree.  */
