@@ -8,6 +8,7 @@ typedef int bool;
 #define FALSE   0
 
 void bfs(node_t* node);
+bool is_binary_search_tree_check(node_t* node);
 
 int find_height(node_t* node);
 int find_min(node_t* node);

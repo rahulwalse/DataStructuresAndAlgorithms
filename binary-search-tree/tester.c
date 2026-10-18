@@ -14,6 +14,16 @@ int main()
     insert_node(&root_node, 5);
     insert_node(&root_node, 12);
 
+    bool is_bst = is_binary_search_tree_check(root_node);
+    if(is_bst)
+    {
+        printf("Tree is a binary search tree!\n");
+    }
+    else
+    {
+        printf("Tree is not a binary search tree!\n");
+    }
+
     bool found = search(root_node, 30);
 
     if(found)

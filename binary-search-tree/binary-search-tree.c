@@ -2,11 +2,13 @@
 
 #include "queue.h"
 
+#include <limits.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 /*  Helper functions.  */
+static bool bst_check_recursive(node_t* root, int min_val, int max_val);
 static node_t* create_node(int data);
 static int get_max(int num_one, int num_two);
 
@@ -53,15 +55,9 @@ void bfs(node_t* node)
     deinitialize(&queue);
 }
 
-static node_t* create_node(int data)
+bool is_binary_search_tree_check(node_t* node)
 {
-    node_t* new_node = malloc(sizeof(node_t));
-
-    new_node->data = data;
-    new_node->left = NULL;
-    new_node->right = NULL;
-
-    return new_node;
+    return bst_check_recursive(node, INT_MIN, INT_MAX);
 }
 
 int find_height(node_t* node)
@@ -105,11 +101,6 @@ int find_max(node_t* node)
 
     /*  Recursive case: Call max on right sub-tree.  */
     return find_max(node->right);
-}
-
-static int get_max(int num_one, int num_two)
-{
-    return num_one > num_two ? num_one : num_two;
 }
 
 void in_order(node_t* node)
@@ -178,7 +169,6 @@ void insert_node(node_t** node, int data)
     }
 }
 
-
 bool search(node_t* node, int key)
 {
     /*
@@ -202,4 +192,43 @@ bool search(node_t* node, int key)
     {
         return search(node->right, key);
     }
+}
+
+/*  Helper function definitions  */
+static bool bst_check_recursive(node_t* root, int min_val, int max_val)
+{
+    /*  If root node is NULL, return true  */
+    if(!root) { return TRUE; }
+
+    bool is_bst = FALSE;
+    int key = root->data;
+    /*
+        Check if the current element is within range, and then
+        recursively check if the elements in left & right sub-trees
+        are within range.
+    */
+    if(key > min_val && key <= max_val
+    && bst_check_recursive(root->left, min_val, key)
+    && bst_check_recursive(root->right, key, max_val))
+    {
+        is_bst = TRUE;
+    }
+
+    return is_bst;
+}
+
+static node_t* create_node(int data)
+{
+    node_t* new_node = malloc(sizeof(node_t));
+
+    new_node->data = data;
+    new_node->left = NULL;
+    new_node->right = NULL;
+
+    return new_node;
+}
+
+static int get_max(int num_one, int num_two)
+{
+    return num_one > num_two ? num_one : num_two;
 }
