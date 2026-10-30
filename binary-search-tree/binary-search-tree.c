@@ -145,6 +145,62 @@ void pre_order(node_t* node)
     pre_order(node->right);
 }
 
+void delete_node(node_t** node, int key)
+{
+    /*  Base case: if root is NULL, do nothing.  */
+    if(!*node) { return; }
+
+    if(key < (*node)->data)
+    {
+        /*  Recursive delete call in left sub-tree.  */
+        delete_node(&(*node)->left, key);
+    }
+    else if(key > (*node)->data)
+    {
+        /*  Recursive delete call in right sub-tree.  */
+        delete_node(&(*node)->right, key);
+    }
+    else
+    {
+        if(!(*node)->left && !(*node)->right)
+        {
+            /*  Leaf node.  */
+            free(*node);
+            *node = NULL;
+        }
+        else if(!(*node)->left)
+        {
+            /*  Only right child.  */
+            node_t* temp_node = *node;
+            *node = (*node)->right;
+            temp_node->right = NULL;
+            free(temp_node);
+        }
+        else if(!(*node)->right)
+        {
+            /*  Only left  child.  */
+            node_t* temp_node = *node;
+            *node = (*node)->left;
+            temp_node->left = NULL;
+            free(temp_node);
+        }
+        else
+        {
+            /*
+                Two children: To Keep the tree balanced after
+                deleting a node, find the maximum element in the
+                left sub-tree and copy it in current node.
+            */
+            (*node)->data = find_max((*node)->left);
+            /*
+                Recursive call to delete node with duplicate element
+                from left sub-tree.
+            */
+            delete_node(&(*node)->left, (*node)->data);
+        }
+    }
+}
+
 void insert_node(node_t** node, int data)
 {
     /*  Base case: first node in tree.  */

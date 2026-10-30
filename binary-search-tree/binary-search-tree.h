@@ -18,6 +18,7 @@ void in_order(node_t* node);
 void post_order(node_t* node);
 void pre_order(node_t* node);
 
+void delete_node(node_t** node, int key);
 void insert_node(node_t** node, int data);
 bool search(node_t* node, int key);
 

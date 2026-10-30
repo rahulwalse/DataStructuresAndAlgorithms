@@ -53,5 +53,19 @@ int main()
     printf("\nPre-order Traversal: ");
     pre_order(root_node);
 
+    printf("\nDeleting node...");
+    delete_node(&root_node, 15);
+    bool is_bst_after_delete = is_binary_search_tree_check(root_node);
+    if(is_bst_after_delete)
+    {
+        printf("\nIt is bst after deletion!");
+    }
+    else
+    {
+        printf("\nIt is not a bst after deletion!");
+    }
+    printf("\nIn-order Traversal: ");
+    in_order(root_node);
+
     return 0;
 }
