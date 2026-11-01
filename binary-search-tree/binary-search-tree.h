@@ -11,8 +11,12 @@ void bfs(node_t* node);
 bool is_binary_search_tree_check(node_t* node);
 
 int find_height(node_t* node);
-int find_min(node_t* node);
-int find_max(node_t* node);
+node_t* find_min(node_t* node);
+node_t* find_max(node_t* node);
+node_t* find_node(node_t* node, int key);
+
+node_t* in_order_predecessor(node_t* node, int key);
+node_t* in_order_successor(node_t* node, int key);
 
 void in_order(node_t* node);
 void post_order(node_t* node);

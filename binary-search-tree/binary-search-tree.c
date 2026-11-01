@@ -73,34 +73,121 @@ int find_height(node_t* node)
     return get_max(left_sub_tree_height, right_sub_tree_height) + 1;
 }
 
-int find_min(node_t* node)
+node_t* find_min(node_t* node)
 {
     if(!node)
     {
         printf("ERROR: Tree is empty!");
-        return -1;
+        return NULL;
     }
 
-    /*  Base case: Value of leaf node in left sub-tree.  */
-    if(!node->left) { return node->data; }
+    /*  Base case: Leaf node in left sub-tree.  */
+    if(!node->left) { return node; }
 
-    /*  Recursive case: Call min on left sub-tree.  */
+    /*  Recursive case: find min in left sub-tree.  */
     return find_min(node->left);
 }
 
-int find_max(node_t* node)
+node_t* find_max(node_t* node)
 {
     if(!node)
     {
         printf("ERROR: Tree is empty!");
-        return -1;
+        return NULL;
     }
 
-    /*  Base case: Value of leaf node in right sub-tree.  */
-    if(!node->right) { return node->data; }
+    /*  Base case: Leaf node in right sub-tree.  */
+    if(!node->right) { return node; }
 
-    /*  Recursive case: Call max on right sub-tree.  */
+    /*  Recursive case: find max in right sub-tree.  */
     return find_max(node->right);
+}
+
+node_t* find_node(node_t* node, int key)
+{
+    /*  If the tree is empty, return NULL  */
+    if(!node) { return NULL; }
+    /*  If the key is found, return node  */
+    if(node->data == key) { return node; }
+
+    /*
+        Recursive case: if the key is less than current node,
+        search for key in left sub-tree, otherwise search in
+        right sub-tree.
+    */
+    if(key < node->data)
+    {
+        return find_node(node->left, key);
+    }
+    else
+    {
+        return find_node(node->right, key);
+    }
+}
+
+node_t* in_order_predecessor(node_t* node, int key)
+{
+    if(!node) { return NULL; }
+
+    node_t* key_node = find_node(node, key);
+
+    if(!key_node) { return NULL; }
+
+    /*
+        If the node does not have left sub-tree, then
+        the node does not have predecessor.
+    */
+    if(!key_node->left) { return NULL; }
+
+    /*
+        Node has left sub-tree, find the maximum in the
+        left sub-tree.
+    */
+    return find_max(key_node->left);
+}
+
+node_t* in_order_successor(node_t* node, int key)
+{
+    if(!node) { return NULL; }
+
+    node_t* key_node = find_node(node, key);
+
+    if(!key_node) { return NULL; }
+
+    /*
+        If node has right child, find node with minimum element
+        in its right sub-tree.
+    */
+    if(key_node->right)
+    {
+        return find_min(key_node->right);
+    }
+    else
+    {
+        /*  No right child, find the ancestor of the node.  */
+        node_t* ancestor_node = node;
+        node_t* successor_node = NULL;
+
+        /*
+            Traverse from root node to key node, if the 
+            element in node is less than root node (ancestor),
+            mark the current ancestor as successor and move to
+            left sub-tree. Otherwise, move to right sub-tree.
+        */
+        while(ancestor_node != key_node)
+        {
+            if(key_node->data < ancestor_node->data)
+            {
+                successor_node = ancestor_node;
+                ancestor_node = ancestor_node->left;
+            }
+            else
+            {
+                ancestor_node = ancestor_node->right;
+            }
+        }
+        return successor_node;
+    }
 }
 
 void in_order(node_t* node)
@@ -191,7 +278,7 @@ void delete_node(node_t** node, int key)
                 deleting a node, find the maximum element in the
                 left sub-tree and copy it in current node.
             */
-            (*node)->data = find_max((*node)->left);
+            (*node)->data = find_max((*node)->left)->data;
             /*
                 Recursive call to delete node with duplicate element
                 from left sub-tree.
