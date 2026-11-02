@@ -148,6 +148,7 @@ int main()
 
         case 13:
             printf("\nExiting the program...");
+            free_tree(root_node);
             exit = TRUE;
             break;
         

@@ -75,11 +75,7 @@ int find_height(node_t* node)
 
 node_t* find_min(node_t* node)
 {
-    if(!node)
-    {
-        printf("ERROR: Tree is empty!");
-        return NULL;
-    }
+    if(!node) { return NULL; }
 
     /*  Base case: Leaf node in left sub-tree.  */
     if(!node->left) { return node; }
@@ -90,11 +86,7 @@ node_t* find_min(node_t* node)
 
 node_t* find_max(node_t* node)
 {
-    if(!node)
-    {
-        printf("ERROR: Tree is empty!");
-        return NULL;
-    }
+    if(!node) { return NULL; }
 
     /*  Base case: Leaf node in right sub-tree.  */
     if(!node->right) { return node; }
@@ -335,6 +327,21 @@ bool search(node_t* node, int key)
     {
         return search(node->right, key);
     }
+}
+
+void free_tree(node_t* node)
+{
+    /*  Tree is empty, nothing to delete.  */
+    if(!node) { return; }
+
+    /*
+        Recursively traverse left & right sub-trees
+        to ensure the child nodes  are freed first.
+    */
+    free_tree(node->left);
+    free_tree(node->right);
+    /*  Free the current node (parent).  */
+    free(node);
 }
 
 /*  Helper function definitions  */

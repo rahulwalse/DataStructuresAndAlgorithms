@@ -26,4 +26,6 @@ void delete_node(node_t** node, int key);
 void insert_node(node_t** node, int data);
 bool search(node_t* node, int key);
 
+void free_tree(node_t* node);
+
 #endif
